@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AS Football | Joueurs </title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+</head>
+
+<body>
+<div class="container">
+
+    <header class="header" id="top">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+                <h1>API SLIM As Football</h1>
+            </div>
+        </div>
+    </header>
+
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-md-3 col-md-push-3">
+        <a href="personne.html" class="btn btn-warning btn-block"><span class="fas fa-address-book"></span></br>Personnes</a>
+    </div>
+
+    <div class="col-md-3 col-md-push-7">
+        <a href="joueurs.html" class="btn btn-success btn-block disabled"><span class="fas fa-futbol"></span></br>Joueurs</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="licences.html" class="btn btn-info btn-block"><span class="far fa-address-card"></span></br>Licence</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="users.html" class="btn btn-primary btn-block"><span class="far fa-user"></span></br>Utilisateur</a>
+    </div>
+</div>
+
+<div id=generate></div>
+<div id=generate-mere></div>
+<div id=generate-pere></div>
+
+
+
+<script type="text/javascript">
+    $.ajax({
+        type: "GET",
+        url: "/server/list_joueur",
+        dataType: "json",
+        success: function (data) {
+            var generate = "<h3><div align=center>Liste des joueurs</div></h3>" +
+                "<a href='mereAjout.html' class='btn btn-danger btn-block'><span class='fa fa-plus'></span> Ajouter un joueur</a>" +
+                "<table class='table table-striped'>" +
+                "<thead>" +
+                "<th>Nom</th>" +
+                "<th>Prenom</th>" +
+                "<th>Mail 1</th>" +
+                "<th>Mail 2</th>"+
+                "<th>Id Pere</th>"+
+                "<th>Id Mere</th>"+
+                "</thead>" +
+                "<tbody>";
+            for (var i = 0; i < data.length; i++) {
+                generate= generate + "<tr>" +
+                    "<td>" + data[i].nom_personne + "</td>" +
+                    "<td>" + data[i].prenom_personne+ "</td>" +
+                    "<td>" + data[i].mail1_joueur + "</td>" +
+                    "<td>" + data[i].mail2_joueur + "</td>" +
+                    "<td>" + data[i].id_pere + "</td>" +
+                    "<td>" + data[i].id_mere + "</td>" +
+                    "</tr>"
+            }
+            generate = generate + "</tbody></table>";
+            $('#generate').html(generate);
+        }
+    });
+
+     $.ajax({
+        type: "GET",
+        url: "/server/list_mere",
+        dataType: "json",
+        success: function (data) {
+            var generate = "<h3><div align=center>Liste des mères</div></h3>" +
+                "<table class='table table-striped'>" +
+                "<thead>" +
+                "<th>Id Mere</th>" +
+                "<th>Personne</th>"+
+                "</thead>" +
+                "<tbody>";
+            for (var i = 0; i < data.length; i++) {
+                generate= generate + "<tr>" +
+                    "<td>" + data[i].id_mere + "</td>" +
+                    "<td>" + data[i].prenom_personne+ "</td>" +
+                    "</tr>"
+            }
+            generate = generate + "</tbody></table>";
+            $('#generate-mere').html(generate);
+        }
+    });
+
+    $.ajax({
+        type: "GET",
+        url: "/server/list_pere",
+        dataType: "json",
+        success: function (data) {
+            var generate = "<h3><div align=center>Liste des pères</div></h3>" +
+                "<table class='table table-striped'>" +
+                "<thead>" +
+                "<th>Id Pere</th>" +
+                "<th>Personne</th>"+
+                "</thead>" +
+                "<tbody>";
+            for (var i = 0; i < data.length; i++) {
+                generate= generate + "<tr>" +
+                    "<td>" + data[i].id_pere + "</td>" +
+                    "<td>" + data[i].prenom_personne+ "</td>" +
+                    "</tr>"
+            }
+            generate = generate + "</tbody></table>";
+            $('#generate-pere').html(generate);
+        }
+    });
+</script>
+
+</body>
+
+</html>

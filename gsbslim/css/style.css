@@ -1,0 +1,51 @@
+/* general */
+
+h1,
+h2{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+#center{
+    text-align: center;
+}
+#right{
+    text-align: right;
+}
+.padding-med{
+    padding-left: 50px;
+    
+}
+.margin-bottom{
+    margin-bottom: 35px;
+}
+
+/* header */
+.allhead{
+    padding-bottom: 80px;
+}
+.first-head{
+    margin-top: 35px;
+    margin-bottom: 5px;
+}
+#timg-head{
+    width: 50%;
+    height: 50%;
+}
+
+/* page medicament */
+.taille-img-med{
+    width: 310px;
+    height: 205px;
+    text-align: left;
+}
+.gile-andre{
+    margin-bottom: 50px;
+}
+
+/* pages de description */
+
+#des-qt{
+    float: left;
+    margin-top: -40px;
+    margin-left: 75px;
+}

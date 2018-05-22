@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accueil | AS Football</title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+</head>
+<body>
+    <div class="container">
+
+        <header class="header" id="top">
+            <div class="row justify-content-md-center">
+                <div class="col-12 col-md-auto">
+                    <h1>API SLIM As Football</h1>
+                </div>
+            </div>
+        </header>
+    
+    </div>
+    <div class="row justify-content-md-center">
+        <div class="col-md-3 col-md-push-3">
+            <a href="personne.html" class="btn btn-warning btn-block"><span class="fas fa-address-book"></span></br>Personnes</a>
+        </div>
+    
+        <div class="col-md-3 col-md-push-7">
+            <a href="joueurs.html" class="btn btn-success btn-block disabled"><span class="fas fa-futbol"></span></br>Joueurs</a>
+        </div>
+    
+        <div class="col-md-3">
+            <a href="licences.html" class="btn btn-info btn-block"><span class="far fa-address-card"></span></br>Licence</a>
+        </div>
+    
+        <div class="col-md-3">
+            <a href="users.html" align="center"class="btn btn-primary btn-block disabled"><span class="far fa-user"></span></br>Utilisateur</a>
+        </div>
+    </div>
+    <div id="generate"></div>
+
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: "/server/list_users",
+            dataType: "json",
+            success: function (data) {
+                var generate = "<h3><div align=center>Liste des utilisateurs</div></h3>" +
+                    "<a href='usersAdd.html' class='btn btn-danger btn-block'><span class='fa fa-plus'></span> Ajouter un utilisateur</a>" +
+                    "<table class='table table-striped'>" +
+                    "<thead>" +
+                    "<th>Id</th>" +
+                    "<th>Login</th>" +
+                    "<th>Mail</th>" +
+                    "<th>Privilege</th>"+
+                    "<th>Actions</th>"+
+                    "</thead>" +
+                    "<tbody>";
+                for (var i = 0; i < data.length; i++) {
+                    generate= generate + "<tr>" +
+                    "<td>" + data[i].id_utilisateur + "</td>" +
+                    "<td>" + data[i].login_utilisateur+ "</td>" +
+                    "<td>" + data[i].mail_utilisateur + "</td>" +
+                    "<td>" + data[i].libelle_privilege + "</td>" +
+                    "<td><div class='btn-group'>" +
+                        "<a class='btn btn-sm btn-primary'><span class='fa fa-info' title='Informations'></a>" +
+                        "<a class='btn btn-sm btn-warning'><span class='fa fa-edit' title='Editer'></a>" +
+                        "<a class='btn btn-sm btn-danger'onclick=deleteUser ('" + data[i].id_utilisateur + "') ><span class='fa fa-trash-alt'  title='Supprimer'></a>" +
+                        "</div></td></tr>"
+                }
+                generate = generate + "</tbody></table>";
+                $('#generate').html(generate);
+            }
+        });
+
+        function deleteUser(id_utilisateur){
+          $.ajax({
+            type: "DELETE",
+            url: "server/deleteUser?id="+id_utilisateur,
+            success: function () {
+                document.location.reload(true);
+            },
+            error: function () {
+                swal("Echec de suppression");
+            }
+        });
+        }
+</script>
+</body>
+</html>

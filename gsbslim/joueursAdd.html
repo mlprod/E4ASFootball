@@ -1,0 +1,129 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AS Football | Ajout joueurs </title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <header class="header" id="top">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+                <h1>API SLIM As Football</h1>
+            </div>
+        </div>
+    </header>
+
+</div>
+
+<div class="row justify-content-md-center">
+    <div class="col-md-3 col-md-push-3">
+        <a href="personne.html" class="btn btn-warning btn-block"><span class="fas fa-address-book"></span></br>Personnes</a>
+    </div>
+
+    <div class="col-md-3 col-md-push-7">
+        <a href="joueurs.html" class="btn btn-success btn-block "><span class="fas fa-futbol"></span></br>Joueurs</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="licences.html" class="btn btn-info btn-block"><span class="far fa-address-card"></span></br>Licence</a>
+    </div>
+    
+    <div class="col-md-3">
+        <a href="users.html" class="btn btn-primary btn-block"><span class="far fa-user"></span></br>Utilisateur</a>
+    </div>
+</div>
+
+<div class="container">
+    <h5><div align="center">Ajouter un joueur</div></h5>
+</div>
+
+<div class="container col-md-8">
+    <div class="row justify-content-between">
+        <div class="form-group col-md-6">
+            <label class="lead">Mail 1 du Joueur</label>
+            <input type="text" id="mail1_joueur" class="form-control"  required/>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label class="lead">Mail 2 du Joueur </label>
+            <input type="text" id="mail2_joueur" class="form-control" required/>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label class="lead">Personne affectée</label>
+            <div id="select-personne"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="lead">Mere (Taper l'ID)</label>
+            <input type="number" id="id_pere" class="form-control"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="lead">Pere (Taper l'ID)</label>
+            <input type="number" id="id_mere" class="form-control"/>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <a id="addjoueur" class='btn btn-danger btn-block'><span class="fa fa-plus"></span> Ajouter ce joueur</a>
+    </div>
+
+    <script type="text/javascript">
+        
+        $('#addjoueur').click(function () {
+            var joueur =new Object();
+            mail1 = $('#mail1_joueur').val();
+            mail2 = $('#mail2_joueur').val();
+            idpere = $('#id_pere').val();
+            idmere = $('#id_mere').val();
+            idpersonne = $('#id_personne').val();
+            joueur = JSON.stringify(joueur);
+            $.ajax({
+                type: "POST",
+                url: "/server/joueurAjout?mail1_joueur="+mail1+"&mail2_joueur="+mail2+"&id_pere="+idpere+"&id_mere="+idmere+"&id_personne="+idpersonne,
+                contentType: "application/json",
+                data: joueur,
+                success: function () {
+                    swal("Personne ajoutée", "", "success");
+                    window.location.href = "/joueurs.html";
+                },
+                error: function () {
+                    swal("Erreur", "Une erreur est survenue", "warning");
+                }
+            })
+    
+        })
+
+window.onload = function () {
+    $.ajax({
+        type: "GET",
+        url: "/server/list_personne",
+        dataType: "json",
+        success: function (data) {
+            var res = data;
+            var select = "<select id='id_personne' class='custom-select'>";
+            for (var i = 0; i < res.length; i++) {
+                select = select + "<option value='" + res[i].id_personne + "'>"+ res[i].id_personne +" - " + res[i].nom_personne + " " + res[i].prenom_personne + "</option>";
+            }
+            select = select + "</select>";
+            $('#select-personne').html(select);
+        }
+    });
+};
+</script>
+
+ </div>
+</body>

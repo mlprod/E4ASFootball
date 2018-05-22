@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AS Football | Licences </title>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/fontawesome/web-fonts-with-css/css/fontawesome-all.min.css">
+</head>
+
+<body>
+<div class="container">
+
+    <header class="header" id="top">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-auto">
+                <h1>API SLIM As Football</h1>
+            </div>
+        </div>
+    </header>
+
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-md-3 col-md-push-3">
+        <a href="personne.html" class="btn btn-warning btn-block"><span class="fas fa-address-book"></span></br>Personnes</a>
+    </div>
+
+    <div class="col-md-3 col-md-push-7">
+        <a href="joueurs.html" class="btn btn-success btn-block "><span class="fas fa-futbol"></span></br>Joueurs</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="licences.html" class="btn btn-info btn-block disabled"><span class="far fa-address-card"></span></br>Licence</a>
+    </div>
+
+    <div class="col-md-3">
+        <a href="users.html" class="btn btn-primary btn-block"><span class="far fa-user"></span></br>Utilisateur</a>
+    </div>
+</div>
+
+
+<div id=generate></div>
+
+
+<script type="text/javascript">
+    $.ajax({
+        type: "GET",
+        url: "/server/list_licence",
+        dataType: "json",
+        success: function (data) {
+            var generate = "<h3><div align=center>Liste des licences</div></h3>" +
+                "<a href='licencesAdd.html' class='btn btn-danger btn-block'><span class='fa fa-plus'></span> Ajouter une licence</a>" +
+                "<table class='table table-striped'>" +
+                "<thead>" +
+                "<th>Id Licence</th>" +
+                "<th>Date Licence</th>" +
+                "<th>Nom de la licence</th>" +
+                "<th>Dirigeant</th>" +
+                "<th>Joueur</th>"+
+                "<th>Saison</th>"+
+                "</thead>" +
+                "<tbody>";
+            for (var i = 0; i < data.length; i++) {
+                generate= generate + "<tr>" +
+                    "<td>" + data[i].id_licence + "</td>" +
+                    "<td>" + data[i].date_licence+ "</td>" +
+                    "<td>" + data[i].cat_licence + "</td>" +
+                    "<td>" + data[i].dirigeant_licence + "</td>" +
+                    "<td>" + data[i].prenom_personne + "</td>" +
+                    "<td>" + data[i].annee_saison + "</td>" +
+                    "</tr>"
+            }
+            generate = generate + "</tbody></table>";
+            $('#generate').html(generate);
+        }
+    });
+</script>
+
+</body>
+
+</html>
